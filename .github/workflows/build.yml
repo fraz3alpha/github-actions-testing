@@ -22,5 +22,6 @@ jobs:
         run: |
           echo "Hello" && \
           echo `pwd`
+          bash build.sh
         shell: bash
         working-directory: "./website"
