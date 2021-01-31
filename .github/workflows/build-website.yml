@@ -26,19 +26,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Runs a script
-      - name: Build Website
-        run: |
-          echo "Hello" && \
-          echo `pwd`
-          bash build.sh
-        shell: bash
-        working-directory: "./website"
+      # Get the submodules as well
+      - name: Checkout submodules
+        uses: textbook/git-checkout-submodule-action@master
 
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@3.7.1
+      # Use GitHub Actions' cache to shorten build times and decrease load on servers
+      - uses: actions/cache@v2
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: "./website/site" # The folder the action should deploy.
-          CLEAN: true # Automatically remove deleted files from the deploy branch
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+
+      # Prepare the website directory
+      - name: Copy dependencies to Website directory
+        run: |
+          echo `pwd`
+          ./build/website/copy-assets.sh
+        shell: bash
+
+      # Standard usage of the plugin as described on https://jekyllrb.com/docs/continuous-integration/github-actions/
+      # on 2021-01-31
+      - uses:  helaili/jekyll-action@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          jekyll_src: 'website'
+          target_branch: 'gh-pages'
+          jekyll_env: production
