@@ -47,9 +47,20 @@ jobs:
 
       # Standard usage of the plugin as described on https://jekyllrb.com/docs/continuous-integration/github-actions/
       # on 2021-01-31
-      - uses:  helaili/jekyll-action@v2
+      # https://github.com/marketplace/actions/jekyll-actions
+      - name: Build the Jekyll site
+        uses:  helaili/jekyll-action@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           jekyll_src: 'website'
-          target_branch: 'gh-pages'
           jekyll_env: production
+          build_only: true # Delegate pushing of the built site the subsquent step so that we can direct which repo it goes to
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages # The branch the action should deploy to.
+          FOLDER: website/site # The folder the action should deploy.
+          CLEAN: true # Automatically remove deleted files from the deploy branch
+          REPOSITORY_NAME: github-actions-testing-2 # Push this to a different repo, to emulate a staging build
