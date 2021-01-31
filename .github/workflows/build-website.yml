@@ -42,7 +42,7 @@ jobs:
       - name: Copy dependencies to Website directory
         run: |
           echo `pwd`
-          ./build/website/copy-assets.sh
+          bash ./build/website/copy-assets.sh
         shell: bash
 
       # Standard usage of the plugin as described on https://jekyllrb.com/docs/continuous-integration/github-actions/
