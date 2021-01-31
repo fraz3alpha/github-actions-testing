@@ -61,6 +61,6 @@ jobs:
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: gh-pages # The branch the action should deploy to.
-          FOLDER: website/site # The folder the action should deploy.
+          FOLDER: website/build # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
           REPOSITORY_NAME: github-actions-testing-2 # Push this to a different repo, to emulate a staging build
