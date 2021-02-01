@@ -63,4 +63,4 @@ jobs:
           BRANCH: gh-pages # The branch the action should deploy to.
           FOLDER: website/build # The folder the action should deploy.
           CLEAN: true # Automatically remove deleted files from the deploy branch
-          REPOSITORY_NAME: fraz3alpha/github-actions-testing-2 # Push this to a different repo, to emulate a staging build
+          # REPOSITORY_NAME: fraz3alpha/github-actions-testing-2 # Push this to a different repo, to emulate a staging build
